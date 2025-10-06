@@ -175,6 +175,52 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <version>1.15.6</version> <!-- roll back slightly for stability -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.pitest</groupId>
+                            <artifactId>pitest-junit5-plugin</artifactId>
+                            <version>1.2.0</version>
+                        </dependency>
+                    </dependencies>
+
+                    <configuration>
+                        <!-- defaults; we'll still pass targetClasses on the CLI -->
+                        <targetClasses>
+                            <param>com.graphhopper.*</param>
+                        </targetClasses>
+                        <targetTests>
+                            <param>com.graphhopper.*</param>
+                        </targetTests>
+
+                        <!-- SAFE FLAGS to avoid minion crashes on macOS/JDK17 -->
+                        <threads>1</threads>
+                        <useClasspathJar>true</useClasspathJar>
+                        <withHistory>false</withHistory>
+                        <timeoutConstant>4000</timeoutConstant>
+                        <timeoutFactor>1.25</timeoutFactor>
+                        <jvmArgs>
+                            <param>-Xmx2g</param>
+                            <param>-Djava.awt.headless=true</param>
+                            <param>--add-opens=java.base/java.lang=ALL-UNNAMED</param>
+                            <param>--add-opens=java.base/java.util=ALL-UNNAMED</param>
+                        </jvmArgs>
+
+                        <!-- keep mutators sane -->
+                        <mutators>
+                            <mutator>DEFAULTS</mutator>
+                        </mutators>
+
+                        <excludedTestClasses>
+                            <param>*IT</param>
+                            <param>*IntegrationTest*</param>
+                            <param>*Benchmark*</param>
+                        </excludedTestClasses>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
@@ -218,6 +264,10 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
