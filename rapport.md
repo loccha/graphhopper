@@ -5,7 +5,7 @@
 
 **Classe :** `com.conveyal.gtfs.model.Service` 
 
-**Nom du test :** `checkOverlapNullCondition`
+**Nom du test :** [checkOverlapNullCondition](https://github.com/loccha/graphhopper/blob/master/reader-gtfs/src/test/java/com/graphhopper/ServiceTest.java)
 
 **Intention :** L'intention du test est de vérifier que la fonction `Service.checkOverlap` renvoit `false` si soit `s1` ou `s2` est `null`.
 
@@ -29,7 +29,7 @@ Il ne doit pas y avoir d'overlap entre deux calendriers si un des deux calendrie
 
 **Classe :** `com.conveyal.gtfs.model.Service`
 
-**Nom du test :** `checkOvelapOverlapingCalendars`
+**Nom du test :** [checkOvelapOverlapingCalendars](https://github.com/loccha/graphhopper/blob/master/reader-gtfs/src/test/java/com/graphhopper/ServiceTest.java) 
 
 **Intention :** L'intention du test est de vérifier que la fonction `Service.checkOverlap` renvoit `true` s'il y a un conflit d'horaire entre les calendriers des services et `false` s'il n'y a pas de conflit d'horaire.
 
@@ -54,7 +54,9 @@ L'idée est de tester quatres comportements principaux pour vérifier que la fon
 ## Test unitaire 3
 
 **Classe :** `com.graphhopper.util.shapes.BBox`  
-**Nom du test :** `intersectsPrimitive_shouldReturnTrueForOverlap_andFalseForDisjoint`  
+
+**Nom du test :** [intersectsPrimitive_shouldReturnTrueForOverlap_andFalseForDisjoint](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/util/shapes/BBoxAdditionalTest.java)
+
 **Intention :** Vérifier le comportement de `BBox.intersects(minLon, maxLon, minLat, maxLat)` dans les deux cas possibles :  
 - (a) chevauchement réel → retour `true`  
 - (b) séparation claire en longitude ou en latitude → retour `false`  
@@ -76,7 +78,8 @@ Deux rectangles alignés sur les axes s’intersectent si et seulement si leurs 
 ## Test unitaire 4
 
 **Classe :** `com.graphhopper.util.shapes.BBox`  
-**Nom du test :** `equalsAndHashCode_shouldHandleEqualDifferentNullAndOtherType`  
+
+**Nom du test :** [equalsAndHashCode_shouldHandleEqualDifferentNullAndOtherType](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/util/shapes/BBoxAdditionalTest.java)
 
 **Intention :**  
 Couvrir les branches principales de `equals(Object)` et vérifier la cohérence de `hashCode` :  
@@ -98,8 +101,9 @@ Couvrir les branches principales de `equals(Object)` et vérifier la cohérence 
 
 ## Test unitaire 5
 
-**Classe :** `com.graphhopper.util.shapes.BBox`  
-**Nom du test :** `isValid_shouldReflectOrdering_andElevationSentinels`  
+**Classe :** `com.graphhopper.util.shapes.BBox` 
+
+**Nom du test :** [isValid_shouldReflectOrdering_andElevationSentinels](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/util/shapes/BBoxAdditionalTest.java) 
 
 **Intention :**  
 Valider les règles de `BBox.isValid()` :  
@@ -121,8 +125,9 @@ Valider les règles de `BBox.isValid()` :
 
 ## Test unitaire 6
 
-**Classe :** `com.graphhopper.coll.GHSortedCollection`  
-**Nom du test :** `pollKeyAndRemove_coverMinOrderDuplicatesAndNonMinRemoval`  
+**Classe :** `com.graphhopper.coll.GHSortedCollection` 
+
+**Nom du test :** [pollKeyAndRemove_coverMinOrderDuplicatesAndNonMinRemoval](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/coll/GHSortedCollectionExtraTests.java)
 
 **Intention :**  
 Vérifier le comportement lors de la suppression des éléments dans un ordre croissant de clé et la gestion des doublons de valeur.  
@@ -146,8 +151,9 @@ Vérifier le comportement lors de la suppression des éléments dans un ordre cr
 
 ## Test unitaire 7
 
-**Classe :** `com.graphhopper.coll.GHSortedCollection`  
-**Nom du test :** `toStringAndClear_coverEmptyAndNonEmpty_andSlidingMean`  
+**Classe :** `com.graphhopper.coll.GHSortedCollection` 
+
+**Nom du test :** [toStringAndClear_coverEmptyAndNonEmpty_andSlidingMean](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/coll/GHSortedCollectionExtraTests.java)
 
 **Intention :**  
 Couvrir les branches de `toString()` selon que la collection est vide ou non, et tester les méthodes `clear()` et `getSlidingMeanValue()`.  
@@ -268,13 +274,13 @@ La démarche est donc complète et conforme aux objectifs demandés.
 # Test java-faker
 
 ## Ajout de la librairie
-La librairie a été ajoutée au [pom.xml](https://github.com/) de `reader-gtfs`
+La librairie a été ajoutée au [pom.xml](https://github.com/loccha/graphhopper/blob/master/reader-gtfs/pom.xml) de `reader-gtfs`
 
 ## Test supplémentaire utilisant java-faker
 
 **Classe :** `com.conveyal.gtfs.model.Frequency` 
 
-**Nom du test :** `testGetIdFormatsCorrectly`
+**Nom du test :** [testGetIdFormatsCorrectly](https://github.com/loccha/graphhopper/blob/master/reader-gtfs/src/test/java/com/graphhopper/gtfs/FrequencyTest.java)
 
 **Intention :** L'intention du test est de vérifier que la `String` renvoyée par la fonction `Frequency.getId()` a le format attendu. 
 
