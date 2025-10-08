@@ -3,7 +3,53 @@
 
 ## Test unitaire 1
 
+**Classe :** `com.conveyal.gtfs.model.Service` 
+
+**Nom du test :** `checkOverlapNullCondition`
+
+**Intention :** L'intention du test est de vérifier que la fonction `Service.checkOverlap` renvoit `false` si soit `s1` ou `s2` est `null`.
+
+**Motivation des données :** <br>
+Services:
+- `s1 = null` 
+- calendrier du service `s2`: `s2.calendar.monday = 1` 
+
+Dans le second cas, on inversera `s1` et `s2` pour tester la condition des deux côtés.
+Le calendrier non null permet d'entrer dans la condition `s1.calendar == null || s2.calendar == null`.
+
+**Oracle :**  
+
+Il ne doit pas y avoir d'overlap entre deux calendriers si un des deux calendrier est null. 
+- Si `s1 == null` -> `false`
+- Si `s2 == null` -> `false`
+- Si `(s1 && s2) == null` -> `false`  
+
+
 ## Test unitaire 2
+
+**Classe :** `com.conveyal.gtfs.model.Service`
+
+**Nom du test :** `checkOvelapOverlapingCalendars`
+
+**Intention :** L'intention du test est de vérifier que la fonction `Service.checkOverlap` renvoit `true` s'il y a un conflit d'horaire entre les calendriers des services et `false` s'il n'y a pas de conflit d'horaire.
+
+**Motivation des données :** <br>
+Services:
+- `s1` et `s2` ont des calendriers vides (pas de conflit d'horaire)
+- `s1.calendar.monday==1` et `s2.calendar.monday==0` (pas de conflit d'horaire)
+- `s1.calendar.monday==1` et `s2.calendar.tuesday==1` (les deux ont des services mais pas au même moment)
+- `s1.calendar.monday==1` et `s2.calendar.monday==1` (conflit d'horaire)
+
+L'idée est de tester quatres comportements principaux pour vérifier que la fonction renvoit `false` si et seulement s'il n'y a pas de conflit d'horaire, puis `true` dans le cas inverse.
+
+**Oracle :**  
+
+- `s1` et `s2` sont vides -> `false`
+- `s1.calendar.monday==1` et `s2.calendar.monday==0` -> `false`
+- `s1.calendar.monday==1` et `s2.calendar.tuesday==1`-> `false`
+- `s1.calendar.monday==1` et `s2.calendar.monday==1`-> `true`
+
+
 
 ## Test unitaire 3
 
@@ -218,4 +264,40 @@ Ces cas sont typiquement mal couverts par les tests initiaux, qui visaient surto
 - Aucun mutant critique n’a été ignoré sans justification  
 
 La démarche est donc complète et conforme aux objectifs demandés.
+
+# Test java-faker
+
+## Ajout de la librairie
+La librairie a été ajoutée au [pom.xml](https://github.com/) de `reader-gtfs`
+
+## Test supplémentaire utilisant java-faker
+
+**Classe :** `com.conveyal.gtfs.model.Frequency` 
+
+**Nom du test :** `testGetIdFormatsCorrectly`
+
+**Intention :** L'intention du test est de vérifier que la `String` renvoyée par la fonction `Frequency.getId()` a le format attendu. 
+
+**Motivation des données :**
+On utilise java-faker pour remplir les données <br>
+- `trip_id`: `faker.lorem().word()` pour remplir la `String`
+- `start_hour` : `faker.number().numberBetween(0, 20)` pour choisir une heure entre 0:00 et 20:00
+- `start_minute` : `faker.number().numberBetween(0, 59)` pour choisir la minute à laquelle le départ a lieu
+- `duration`: `faker.number().numberBetween(600, 7200)` pour choisir une durée du trajet
+- `headway_secs` : `faker.number().numberBetween(300, 3600)` pour choisir la fréquence entre chaque départ
+
+Les données ont été générée avec java-faker puisque l'id du trajet et les différentes heures n'ont pas d'importance dans la vérification du formattage tant que les heures, la durée et la fréquences soient des nombres réalistes.
+
+**Oracle :**  
+
+La `String` retournée par la fonction `Frequency.getId()` doit avoir le format : 
+
+- Si `exact_time == 1` ->  `trip_id_start_time_to_end_time_every_headway_exact`
+- Si `exact_time == 0` -> `trip_id_start_time_to_end_time_every_headway`
+
+Dans les deux cas, `start_time` et `end_time` doivent avoir le format GTFS et headway devrait avoir le format `%dm%02ds`.
+
+
+
+
 

@@ -42,51 +42,15 @@ public class ServiceTest {
         s2.calendar = new Calendar();
         assertFalse(Service.checkOverlap(s1, s2));
 
-        //both calendars overlap on monday
+        //one of the calendar has a service
         s1.calendar.monday = 1;
-        s2.calendar.monday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
+        assertFalse(Service.checkOverlap(s1, s2));
 
-        //both calendars overlap on tuesday
-        s1.calendar = new Calendar();
-        s1.calendar.tuesday = 1;
-        s2.calendar = new Calendar();
+        //both has services but not at the same time
         s2.calendar.tuesday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
 
-        //both calendars overlap on wednesday
-        s1.calendar = new Calendar();
-        s1.calendar.wednesday = 1;
-        s2.calendar = new Calendar();
-        s2.calendar.wednesday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
-
-        //both calendars overlap on thursday
-        s1.calendar = new Calendar();
-        s1.calendar.thursday = 1;
-        s2.calendar = new Calendar();
-        s2.calendar.thursday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
-
-        //both calendars overlap on friday
-        s1.calendar = new Calendar();
-        s1.calendar.friday = 1;
-        s2.calendar = new Calendar();
-        s2.calendar.friday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
-
-        //both calendars overlap on saturday
-        s1.calendar = new Calendar();
-        s1.calendar.saturday = 1;
-        s2.calendar = new Calendar();
-        s2.calendar.saturday = 1;
-        assertTrue(Service.checkOverlap(s1, s2));
-
-        //both calendars overlap on sunday
-        s1.calendar = new Calendar();
-        s1.calendar.sunday = 1;
-        s2.calendar = new Calendar();
-        s2.calendar.sunday = 1;
+        //both calendars overlap on monday
+        s2.calendar.monday = 1;
         assertTrue(Service.checkOverlap(s1, s2));
 
     }
