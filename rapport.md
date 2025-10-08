@@ -267,9 +267,7 @@ Ces cas sont typiquement mal couverts par les tests initiaux, qui visaient surto
 - Pour le module core, le score de mutation est passé de 47% à 61%  
 - Pour le module reader-gtfs, une légère amélioration de 11% à 18% a été observée  
 - Les nouveaux tests détectent effectivement des mutants supplémentaires  
-- Aucun mutant critique n’a été ignoré sans justification  
 
-La démarche est donc complète et conforme aux objectifs demandés.
 
 # Test java-faker
 
