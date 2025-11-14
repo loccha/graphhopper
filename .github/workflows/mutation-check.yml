@@ -1,0 +1,66 @@
+name: Mutation Check
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write   # for the optional baseline auto-commit on main
+
+jobs:
+  pit-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
+
+      - name: Unit tests (core only)
+        run: |
+          mvn -B -pl :graphhopper-core -DskipITs=true -DfailIfNoTests=false test
+
+      - name: PIT (RoutingAlgorithmFactorySimple only)
+        run: >
+          mvn -B -pl :graphhopper-core -DskipITs=true -DfailIfNoTests=false
+          -DargLine=
+          -DtargetClasses=com.graphhopper.routing.RoutingAlgorithmFactorySimple
+          -DtargetTests=com.graphhopper.routing.RoutingAlgorithmFactorySimpleTest
+          -Dthreads=1
+          -Dpitest.jvmArgs="-Xmx2G"
+          org.pitest:pitest-maven:1.16.1:mutationCoverage
+
+      - name: Check mutation score vs baseline
+        run: bash scripts/check_mutation.sh
+
+      - name: Upload PIT report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pit-report-core
+          path: core/target/pit-reports
+
+      - name: Commit improved baseline
+        if: github.ref == 'refs/heads/main' && success()
+        run: |
+          git config user.name "ci-bot"
+          git config user.email "ci@example.com"
+          git add .ci/mutation_baseline.txt || true
+          git diff --cached --quiet || git commit -m "ci: update mutation baseline"
+          git push
+
+      - name: Rickroll on failure
+        if: failure()
+        run: |
+          echo "Never gonna give you up"
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
