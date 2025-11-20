@@ -13,7 +13,7 @@ donc de valider une partie critique du système : la correspondance entre les
 paramètres d’entrée et les implémentations concrètes d’algorithmes.
 
 - **RouteResource** :
-Nous avons choisi cette classe puisqu'elle a comme attribut plusieurs dépendances externes importantes telles que les classes [GraphHopperConfig](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopperConfig.java), [GraphHopper](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopper.java) et [ProfileResolver](https://github.com/loccha/graphhopper/blob/master/web-bundle/src/main/java/com/graphhopper/http/ProfileResolver.java). Il est donc nécessaire d'utiliser des Mocks pour tester adéquatement afin de les générer automatiquement et d'isosler le comportement à tester.
+Nous avons choisi cette classe puisqu'elle a comme attribut plusieurs dépendances externes importantes telles que les classes [GraphHopperConfig](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopperConfig.java), [GraphHopper](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopper.java) et [ProfileResolver](https://github.com/loccha/graphhopper/blob/master/web-bundle/src/main/java/com/graphhopper/http/ProfileResolver.java). Il est donc nécessaire d'utiliser des Mocks pour tester adéquatement afin de les générer automatiquement et d'isoler le comportement à tester.
 
 ## [Tests unitaires de la classe RoutingAlgorithmFactorySimple](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/routing/RoutingAlgorithmFactorySimpleTest.java)
 
