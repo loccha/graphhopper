@@ -64,12 +64,6 @@
             <artifactId>jackson-jakarta-rs-xml-provider</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.5</version>
-        </dependency>
-
         <!-- Pt and/or map-matching and/or isochrone web client dependencies-->
         <dependency>
             <groupId>org.webjars.npm</groupId>
