@@ -264,4 +264,14 @@ public class RouteResource {
             }
         }
     }
+
+    // for testing purposes
+    public String getOsmDate() {
+        return osmDate;
+    }
+
+    // for testing purposes
+    public List<String> getSnapPreventionsDefault() {
+        return snapPreventionsDefault;
+    }
 }
