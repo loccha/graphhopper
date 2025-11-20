@@ -4,7 +4,7 @@
 ## Justification des choix de test
 
 Pour la tâche 3, nous avons choisi de tester les classes 
-`RoutingAlgorithmFactorySimple` et `RouteResource`
+[RoutingAlgorithmFactorySimple](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/routing/RoutingAlgorithmFactorySimple.java) et [RouteResource](https://github.com/loccha/graphhopper/blob/master/web-bundle/src/main/java/com/graphhopper/resources/RouteResource.java)
 - **RoutingAlgorithmFactorySimple** : 
 Cette classe joue un rôle central dans l’architecture de GraphHopper, car elle
 est responsable de la création des différentes instances d’algorithmes de routage
@@ -13,9 +13,9 @@ donc de valider une partie critique du système : la correspondance entre les
 paramètres d’entrée et les implémentations concrètes d’algorithmes.
 
 - **RouteResource** :
-Nous avons choisi cette classe puisqu'elle a comme attribut plusieurs dépendances externes importantes telles que les classes `GraphHopperConfig`, `GraphHopper` et `ProfileResolver`. Il est donc nécessaire d'utiliser des Mocks pour tester adéquatement afin de les générer automatiquement et d'isosler le comportement à tester.
+Nous avons choisi cette classe puisqu'elle a comme attribut plusieurs dépendances externes importantes telles que les classes [GraphHopperConfig](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopperConfig.java), [GraphHopper](https://github.com/loccha/graphhopper/blob/master/core/src/main/java/com/graphhopper/GraphHopper.java) et [ProfileResolver](https://github.com/loccha/graphhopper/blob/master/web-bundle/src/main/java/com/graphhopper/http/ProfileResolver.java). Il est donc nécessaire d'utiliser des Mocks pour tester adéquatement afin de les générer automatiquement et d'isosler le comportement à tester.
 
-## Tests unitaire de la classe `RoutingAlgorithmFactorySimple`
+## [Tests unitaires de la classe RoutingAlgorithmFactorySimple](https://github.com/loccha/graphhopper/blob/master/core/src/test/java/com/graphhopper/routing/RoutingAlgorithmFactorySimpleTest.java)
 
 ### Choix des classes simulées (mocks)
 
@@ -38,22 +38,21 @@ L’utilisation de ces mocks garantit que le test se concentre uniquement sur la
 Deux nouveaux cas de test ont été implémentés :
 
 1. **createsAStarBidirection whenAlgoIsAStarBi()** :  
-   Ce test vérifie que la fabrique crée correctement une instance de **AStarBidirection** lorsque l’option ASTAR BI est spécifiée. Plusieurs méthodes de **AlgorithmOptions** et de **Graph** sont simulées pour reproduire un environnement d’exécution typique. Des vérifications avec `verify()` assurent que toutes les dépendances ont été utilisées comme prévu.
+   Ce test vérifie que la fabrique crée correctement une instance de `AStarBidirection` lorsque l’option ASTAR BI est spécifiée. Plusieurs méthodes de `AlgorithmOptions` et de `Graph` sont simulées pour reproduire un environnement d’exécution typique. Des vérifications avec `verify()` assurent que toutes les dépendances ont été utilisées comme prévu.
 
 2. **throwsForUnknownAlgorithm()** :  
-   Ce test valide le comportement d’erreur de la fabrique lorsqu’un nom d’algorithme inconnu est fourni. On s’attend à une exception **IllegalArgumentException**, garantissant ainsi la robustesse et la sécurité du code.
+   Ce test valide le comportement d’erreur de la fabrique lorsqu’un nom d’algorithme inconnu est fourni. On s’attend à une exception `IllegalArgumentException`, garantissant ainsi la robustesse et la sécurité du code.
 
 
-## Tests unitaire de la classe `RouteResource`
+## [Tests unitaire de la classe RouteResource](https://github.com/loccha/graphhopper/blob/master/web-bundle/src/test/java/com/graphhopper/RouteResourceTest.java)
 
 ### Choix des classes simulées (mocks)
 Dans cette classe, nous avons choisi de *mocker* les classes suivantes: 
 
-## Tests unitaire de la classe `RouteResource`
 
  - **GraphHopperConfig**: Afin de renvoyer une *string* spécifique lors de l'appel à sa méthode `getString`, appelée lors de l'initialisation de l'attribut `snapPreventionDefault`.
 
- - **GraphHopper**: Pour paramétrer le retour de sa fonction `getProperties` lors de l'initialisation de l'attribut osmDate. 
+ - **GraphHopper**: Pour paramétrer le retour de sa fonction `getProperties` lors de l'initialisation de l'attribut `osmDate`. 
 
  - **profileResolver et ghRequest Transformer**: Afin de pouvoir les utiliser dans le constructeur (sans avoir a réellement créer les deux objets). Puisqu'il n'y a pas d'interaction avec eux lors de la construction d'un objet RouteResource, ils ne seront pas paramétrés.
 
@@ -80,10 +79,10 @@ Le test passe si que lorsque `removeLegacyParameters` est appelé sur un objet R
 ## Justifications additionnelles
 ### Désactivation d’un test existant
 
-Durant l’exécution de `mvn clean verify`, un test préexistant du module **web-bundle**, **GraphHopperConfigModuleTest**, échouait systématiquement avec une erreur de type **NoSuchMethodError**.  
-Après analyse, nous avons identifié que ce test dépend d’une version plus récente de la bibliothèque **SnakeYAML** que celle résolue par la configuration Maven fournie dans le projet de départ.  
+Durant l’exécution de `mvn clean verify`, un test préexistant du module `web-bundle`, `GraphHopperConfigModuleTest`, échouait systématiquement avec une erreur de type **NoSuchMethodError**.  
+Après analyse, nous avons identifié que ce test dépend d’une version plus récente de la bibliothèque `SnakeYAML` que celle résolue par la configuration Maven fournie dans le projet de départ.  
 
-Plus précisément, le test appelle un constructeur de **ParserImpl** utilisant **LoaderOptions**, constructeur absent dans la version 2.4 de SnakeYAML référencée transitivement par **jackson-dataformat-yaml**.  
+Plus précisément, le test appelle un constructeur de `ParserImpl` utilisant `LoaderOptions`, constructeur absent dans la version 2.4 de SnakeYAML référencée transitivement par `jackson-dataformat-yaml`.  
 
 Cette incompatibilité n’est pas due à nos ajouts dans le module core, ni aux modifications apportées dans le cadre de la tâche 3. Il s’agit d’un problème structurel déjà présent dans le projet initial. Nous avons exploré différentes solutions, incluant la mise à jour des dépendances dans le module web-bundle, mais celles-ci créaient des incohérences supplémentaires dans la chaîne de construction multi-modules de GraphHopper.
 
@@ -93,4 +92,4 @@ Cette décision est justifiée par le fait que le test en question ne relève pa
 
 ### Ajout de *Getters* dans la classe `RouteResource`
 
-Les deux tests unitaires visant à vérifier que les objets `RouteResource` soient construits conformément aux attentes nécessitent de renvoyer les valeurs de deux champ `private` dans la classe. Afin de réaliser ces tests, nous avons ajouté deux nouveaux  *getters* : `getOsmDate()` et `getSnapPreventionsDefault()`.
+Les deux tests unitaires visant à vérifier que les objets `RouteResource` soient construits conformément aux attentes nécessitent de renvoyer les valeurs de deux champ `private` dans la classe. Afin de réaliser ces tests, nous avons ajouté deux nouveaux  *getters* : `getOsmDate` et `getSnapPreventionsDefault`.
